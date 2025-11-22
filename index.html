@@ -24,6 +24,8 @@
       }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Babel Standalone for in-browser compilation of TSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
       body {
         font-family: 'Inter', sans-serif;
@@ -32,28 +34,43 @@
   <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+    "react": "https://esm.sh/react@18.2.0?dev",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?dev",
+    "react/": "https://esm.sh/react@18.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
   }
 }
 </script>
 </head>
   <body class="bg-gray-950 text-gray-200 antialiased selection:bg-indigo-500 selection:text-white">
-    <div id="root"></div>
+    <div id="root" class="h-screen w-full flex items-center justify-center text-gray-500">
+      Loading payment system...
+    </div>
     <script>
       window.addEventListener('error', function(event) {
         const root = document.getElementById('root');
-        if (root && root.innerHTML === '') {
+        // Only show error if the app hasn't mounted (root still has loading text or is empty)
+        if (root) {
           const errorDiv = document.createElement('div');
           errorDiv.style.color = '#ef4444';
           errorDiv.style.padding = '20px';
+          errorDiv.style.maxWidth = '600px';
+          errorDiv.style.margin = '0 auto';
           errorDiv.style.fontFamily = 'monospace';
-          errorDiv.innerHTML = '<strong>Application Error:</strong><br>' + event.message;
+          errorDiv.style.backgroundColor = '#1f2937';
+          errorDiv.style.borderRadius = '8px';
+          errorDiv.style.marginTop = '50px';
+          errorDiv.innerHTML = '<strong style="font-size:1.2em">Application Error:</strong><br><br>' + event.message + '<br><br><em>If you are seeing this, your browser might be blocking the scripts or the file path is incorrect.</em>';
+          // Clear loading text and append error
+          root.innerHTML = '';
           root.appendChild(errorDiv);
         }
       });
     </script>
-    <script type="module" src="./index.tsx"></script>
+    <!-- 
+      NOTE: We use data-type="module" and type="text/babel" to tell the browser 
+      to let Babel compile this file and its imports.
+    -->
+    <script type="text/babel" data-type="module" data-presets="react,typescript" src="./index.tsx"></script>
   </body>
 </html>
