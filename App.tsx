@@ -1,7 +1,7 @@
 import React from 'react';
 import { Elements } from 'https://esm.sh/@stripe/react-stripe-js?external=react,react-dom';
-import { stripePromise } from './services/stripeService';
-import { CheckoutForm } from './components/CheckoutForm';
+import { stripePromise } from './services/stripeService.ts';
+import { CheckoutForm } from './components/CheckoutForm.tsx';
 
 const App: React.FC = () => {
   return (

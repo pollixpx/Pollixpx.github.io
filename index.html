@@ -41,6 +41,19 @@
 </head>
   <body class="bg-gray-950 text-gray-200 antialiased selection:bg-indigo-500 selection:text-white">
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script>
+      window.addEventListener('error', function(event) {
+        const root = document.getElementById('root');
+        if (root && root.innerHTML === '') {
+          const errorDiv = document.createElement('div');
+          errorDiv.style.color = '#ef4444';
+          errorDiv.style.padding = '20px';
+          errorDiv.style.fontFamily = 'monospace';
+          errorDiv.innerHTML = '<strong>Application Error:</strong><br>' + event.message;
+          root.appendChild(errorDiv);
+        }
+      });
+    </script>
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>
